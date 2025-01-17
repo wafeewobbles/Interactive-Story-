@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+    <title>Generative AI - Page 3</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            overflow: hidden;
+            background-image: url(earthbg.png);
+            cursor: url(rocket\ .png), auto; /* Provide a fallback with 'auto' */
+        }
+
+        .whitebox {
+            width: 960px;
+            height: 540px;
+            background-color:rgba(252, 252, 252, 0.7);
+            border: 5px solid #43644d;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .header {
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .header p {
+            margin: 5px 0;
+            font-size: 1rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 10px;
+            padding: 0;
+        }
+
+        .grid-box {
+            background-color: #b1d4ff; /* Light beige */
+            border: 2px solid #43644d;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(15, 46, 250, 0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+            padding-top: 10px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .grid-box video {
+            width: 75%; /* Adjusts video size */
+            height: auto;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 40px;
+            background-color: #6a11cb;
+            color: white;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .back-button:hover {
+            background-color: #5a0fa7;
+            transform: translateX(-50%) scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="whitebox">
+        <!-- Header Section -->
+        <div class="header">
+            <h1>Content Creation: Text, Images and Beyond</h1>
+            <p>Here are some examples to dive into!</p>
+        </div>
+
+        <!-- Grid Container -->
+        <div class="grid-container">
+            <div class="grid-box">
+                <video src="poem.mov" controls></video>
+                <p>AI chatbots such as ChatGPT allows users  to create anything they want, including poems! Check this out!</p>
+            </div>
+            <div class="grid-box">
+                <video src="ideogram.mp4" controls></video>
+                <p>The above  is a result of AI Image generator, Ideogram, creating an artwork of "a futuristic city under a glowing purple sky"</p>
+            </div>
+        </div>
+
+        <!-- Back Button -->
+        <a href="page2.html">
+            <button class="back-button">Back</button>
+        </a>
+    </div>
+</body>
+</html>
+
+
+
