@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQ Quiz</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-image: url(marsbg.png);
+      background-size: cover;
+      background-position: center;
+      color: white;
+      cursor: url(rocket\ .png), auto;
+    }
+
+    #quiz-container {
+      width: 960px;
+      height: 540px;
+      background: rgba(160, 31, 246, 0.6);
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    #progress-bar {
+      width: 100%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #progress {
+      height: 100%;
+      background: #4caf50;
+      transition: width 0.3s;
+      position: relative;
+    }
+
+    #progress-icon {
+      position: absolute;
+      top: -10px;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      background-image: url();
+      background-size: cover;
+      transition: left 0.3s;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+
+    .options button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      cursor: pointer;
+      background-color: rgba(42, 42, 42, 0.8);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .options button:hover {
+      background-color: #cd5ad1;
+    }
+
+    .options button.correct {
+      background-color: #4caf50;
+    }
+
+    .options button.incorrect {
+      background-color: #f44336;
+    }
+
+    #comment {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+
+    #score {
+      font-size: 1.5em;
+      margin-top: 20px;
+    }
+
+    #gif-container {
+      margin-top: 20px;
+    }
+
+    #gif-container img {
+      width: 300px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #button-container {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    #restart-button, #end-button {
+      padding: 10px 30px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #restart-button {
+      background-color: #f44336;
+      color: white;
+    }
+
+    #restart-button:hover {
+      background-color: #d32f2f;
+    }
+
+    #end-button {
+      background-color: #620299;
+      color: white;
+    }
+
+    #end-button:hover {
+      background-color: #a1529d;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="quiz-container">
+    <div id="progress-bar">
+      <div id="progress">
+        <div id="progress-icon"></div>
+      </div>
+    </div>
+    <div id="quiz">
+      <p id="question-number">Question 1/5</p>
+      <p class="question"></p>
+      <div class="options"></div>
+      <div id="comment"></div>
+    </div>
+    <div id="score" style="display: none;">
+      <p>You scored <span id="score-value"></span> out of <span id="total-questions"></span>!</p>
+      <div id="gif-container">
+        <img src="quizpic.png" alt="Celebratory GIF">
+      </div>
+      <div id="button-container">
+        <button id="restart-button" onclick="restartQuiz()">Restart</button>
+        <button id="end-button" onclick="endQuiz()">End</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "What is a potential ethical issue associated with Generative AI in content creation?",
+        options: [
+          "Encouraging transparency in news articles",
+          "Generating realistic but false news that spreads misinformation",
+          "Automating mundane tasks to increase efficiency",
+          "Improving accessibility to language translation"
+        ],
+        answer: 1,
+        comment: "Generative AI can create fake news or realistic but false content, leading to misinformation and public panic."
+      },
+      {
+        question: "How can deepfakes be misused ethically?",
+        options: [
+          "As a tool for educational storytelling",
+          "To impersonate real people for malicious purposes",
+          "To enhance movie production with realistic effects",
+          "To create engaging content for social media influencers"
+        ],
+        answer: 1,
+        comment: "Deepfakes can impersonate individuals, often for malicious purposes like fraud, defamation, or blackmail."
+      },
+      {
+        question: "Which sector is most likely to face job displacement due to Generative AI?",
+        options: [
+          "Manual labor and construction",
+          "Customer support and content creation",
+          "Medical diagnostics and surgery",
+          "Environmental research and policy"
+        ],
+        answer: 1,
+        comment: "Generative AI automates tasks like writing and customer support, reducing demand for human workers in these sectors."
+      },
+      {
+        question: "How can Generative AI enhance tutoring platforms like Study Monkey?",
+        options: [
+          "By replacing teachers in schools entirely",
+          "By creating customised learning plans and explanations for students",
+          "By standardising all learning materials across the globe",
+          "By limiting access to advanced educational resources"
+        ],
+        answer: 1,
+        comment: "Generative AI can personalize learning by providing tailored explanations and practice materials for individual students."
+      },
+      {
+        question: "What is a key concern when Generative AI generates realistic content?",
+        options: [
+          "It reduces creativity among users.",
+          "It always requires human intervention to function.",
+          "It can be challenging to distinguish between real and AI-generated content.",
+          "It is inaccessible to most people due to high costs."
+        ],
+        answer: 2,
+        comment: "Generative AI's realistic outputs, such as deepfake videos or fake news, make it hard to identify authenticity, raising ethical concerns."
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const question = questions[currentQuestion];
+      $("#question-number").text(`Question ${currentQuestion + 1}/${questions.length}`);
+      $(".question").text(question.question);
+      $(".options").empty();
+      question.options.forEach((option, index) => {
+        $(".options").append(`<button data-index="${index}">${option}</button>`);
+      });
+      $("#comment").text("");
+    }
+
+    function updateProgressBar() {
+      const progress = ((currentQuestion + 1) / questions.length) * 100;
+      $("#progress").css("width", `${progress}%`);
+      $("#progress-icon").css("left", `${progress}%`);
+    }
+
+    function restartQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      $("#quiz").show();
+      $("#score").hide();
+      $("#restart-button, #end-button").hide();
+      loadQuestion();
+      updateProgressBar();
+    }
+
+    function endQuiz() {
+      window.location.href = 'welcomepage.html';
+    }
+
+    $(document).ready(function () {
+      loadQuestion();
+      updateProgressBar();
+
+      $(".options").on("click", "button", function () {
+        const selected = $(this).data("index");
+        const question = questions[currentQuestion];
+
+        if (selected === question.answer) {
+          $(this).addClass("correct");
+          score++;
+        } else {
+          $(this).addClass("incorrect");
+          $(`.options button[data-index='${question.answer}']`).addClass("correct");
+        }
+
+        $("#comment").text(question.comment);
+
+        setTimeout(() => {
+          currentQuestion++;
+          if (currentQuestion < questions.length) {
+            loadQuestion();
+            updateProgressBar();
+          } else {
+            $("#quiz").hide();
+            $("#score").show();
+            $("#score-value").text(score);
+            $("#total-questions").text(questions.length);
+            $("#restart-button, #end-button").show();
+          }
+        }, 2000);
+      });
+    });
+  </script>
+</body>
+
+</html>
+
+
+

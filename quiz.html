@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQ Quiz</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-image: url(earthbg.png);
+      background-size: cover;
+      background-position: center;
+      color: white;
+      cursor: url(rocket\ .png), auto;
+    }
+
+    #quiz-container {
+      width: 960px;
+      height: 540px;
+      background: rgba(160, 31, 246, 0.6);
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    #progress-bar {
+      width: 100%;
+      height: 20px;
+      background: #ddd;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    #progress {
+      height: 100%;
+      background: #4caf50;
+      transition: width 0.3s;
+      position: relative;
+    }
+
+    #progress-icon {
+      position: absolute;
+      top: -10px;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      background-image: url();
+      background-size: cover;
+      transition: left 0.3s;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      font-size: 1.5em;
+    }
+
+    .options button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      cursor: pointer;
+      background-color: rgba(42, 42, 42, 0.8);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    .options button:hover {
+      background-color: #cd5ad1;
+    }
+
+    .options button.correct {
+      background-color: #4caf50;
+    }
+
+    .options button.incorrect {
+      background-color: #f44336;
+    }
+
+    #comment {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+
+    #score {
+      font-size: 1.5em;
+      margin-top: 20px;
+    }
+
+    #gif-container {
+      margin-top: 20px;
+    }
+
+    #gif-container img {
+      width: 300px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #retry-button, #proceed-button {
+      display: none;
+      margin: 20px auto 0;
+      padding: 10px 30px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #retry-button {
+      background-color: #f44336;
+      color: white;
+    }
+
+    #retry-button:hover {
+      background-color: #d32f2f;
+    }
+
+    #proceed-button {
+      background-color: #620299;
+      color: white;
+    }
+
+    #proceed-button:hover {
+      background-color: #a1529d;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="quiz-container">
+    <div id="progress-bar">
+      <div id="progress">
+        <div id="progress-icon"></div>
+      </div>
+    </div>
+    <div id="quiz">
+      <p id="question-number">Question 1/5</p>
+      <p class="question"></p>
+      <div class="options"></div>
+      <div id="comment"></div>
+    </div>
+    <div id="score" style="display: none;">
+      <p>You scored <span id="score-value"></span> out of <span id="total-questions"></span>!</p>
+      <div id="gif-container">
+        <img src="quizpic.png" alt="Celebratory GIF">
+      </div>
+      <button id="retry-button" onclick="retryQuiz()">Retry Quiz</button>
+      <button id="proceed-button" onclick="proceedToNextPage()">Proceed</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        question: "What is one way Generative AI adapts to user inputs?",
+        options: [
+          "By modifying its programming each time it interacts with users",
+          "By making conversations feel personalised",
+          "By analyzing social media posts",
+          "By creating encrypted codes for data protection"
+        ],
+        answer: 1,
+        comment: "Generative AI makes conversations feel personalised!"
+      },
+      {
+        question: "Which of the following is NOT an example of how Generative AI is used?",
+        options: [
+          "Chatbots for customer support",
+          "Educational platforms for personalised learning",
+          "Generating physical prototypes for hardware",
+          "Solving mathematical problems"
+        ],
+        answer: 2,
+        comment: "Generative AI cannot generate physical prototypes for hardware!"
+      },
+      {
+        question: "How does Generative AI assist in complex tasks?",
+        options: [
+          "By manually debugging programs",
+          "By making use of large amounts of data",
+          "By relying on trial-and-error experiments",
+          "By outsourcing tasks to human experts"
+        ],
+        answer: 1,
+        comment: "Generative AI uses large amounts of data to assist in complex tasks!"
+      },
+      {
+        question: "Which of these describes a creation that Generative AI is capable of producing?",
+        options: [
+          "A detailed painting on a physical canvas",
+          "An artwork of 'a futuristic city under a glowing purple sky'",
+          "A physical 3D model of a spacecraft",
+          "A hand-crafted sculpture of an animal"
+        ],
+        answer: 1,
+        comment: "Generative AI can produce digital artwork!"
+      },
+      {
+        question: "What kind of content can users create using Generative AI chatbots like ChatGPT?",
+        options: [
+          "Mechanical devices",
+          "Encrypted passwords",
+          "Poems and other written content",
+          "Virtual reality simulations"
+        ],
+        answer: 2,
+        comment: "Users can create poems and other written content using Generative AI chatbots!"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion() {
+      const question = questions[currentQuestion];
+      $("#question-number").text(`Question ${currentQuestion + 1}/${questions.length}`);
+      $(".question").text(question.question);
+      $(".options").empty();
+      question.options.forEach((option, index) => {
+        $(".options").append(`<button data-index="${index}">${option}</button>`);
+      });
+      $("#comment").text("");
+    }
+
+    function updateProgressBar() {
+      const progress = ((currentQuestion + 1) / questions.length) * 100;
+      $("#progress").css("width", `${progress}%`);
+      $("#progress-icon").css("left", `${progress}%`);
+    }
+
+    function retryQuiz() {
+      currentQuestion = 0;
+      score = 0;
+      $("#quiz").show();
+      $("#score").hide();
+      $("#retry-button, #proceed-button").hide();
+      loadQuestion();
+      updateProgressBar();
+    }
+
+    function proceedToNextPage() {
+      window.location.href = 'index2.html';
+    }
+
+    $(document).ready(function () {
+      loadQuestion();
+      updateProgressBar();
+
+      $(".options").on("click", "button", function () {
+        const selected = $(this).data("index");
+        const question = questions[currentQuestion];
+
+        if (selected === question.answer) {
+          $(this).addClass("correct");
+          score++;
+        } else {
+          $(this).addClass("incorrect");
+          $(`.options button[data-index='${question.answer}']`).addClass("correct");
+        }
+
+        $("#comment").text(question.comment);
+
+        setTimeout(() => {
+          currentQuestion++;
+          if (currentQuestion < questions.length) {
+            loadQuestion();
+            updateProgressBar();
+          } else {
+            $("#quiz").hide();
+            $("#score").show();
+            $("#score-value").text(score);
+            $("#total-questions").text(questions.length);
+
+            if (score >= 4) {
+              $("#proceed-button").show();
+            } else {
+              $("#retry-button").show();
+            }
+          }
+        }, 2000);
+      });
+    });
+  </script>
+</body>
+
+</html>
+
